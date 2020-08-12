@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:jorbs/Screens/PopUpScreen.dart';
+import 'package:flutter/services.dart';
+
+import 'Screens/AboutScreen.dart';
+import 'Widgets/JobCard.dart';
 
 void main() {
   runApp(MyApp());
@@ -8,11 +13,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Jorbs',
       theme: ThemeData(
+        primaryColor: Colors.white,
+        backgroundColor: Color.fromRGBO(246, 246, 246, 1),
+        accentColor: Color.fromRGBO(255, 67, 67, 1),
+        fontFamily: 'Gilory',
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -27,38 +37,53 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  @override
+  void initState() {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+    ));
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("Jorbs",
+            style: TextStyle(
+              color: Colors.black,
+              fontFamily: 'Gilroy',
+              fontWeight: FontWeight.bold,
+              fontSize: 50,
+            )),
+        backgroundColor: Theme.of(context).backgroundColor,
+        elevation: 00,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+      backgroundColor: Theme.of(context).backgroundColor,
+      drawer: AboutDrawer(),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        // crossAxisAlignment: ,
+        children: <Widget>[
+          SizedBox(
+            height: 30,
+          ),
+          Center(child: PopUpScreen()),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            "Recent Jobs",
+            style: TextStyle(
+              fontFamily: 'Gilroy',
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              fontSize: 50,
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+            textAlign: TextAlign.right,
+          ),
+          JobCard(),
+        ],
       ),
     );
   }
