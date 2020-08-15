@@ -47,7 +47,7 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/images/icon.jpg"
-  adaptive_icon_background: "#c5c9cc"
+  adaptive_icon_background: "#8dc064"
   adaptive_icon_foreground: "assets/images/icon_adaptive.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

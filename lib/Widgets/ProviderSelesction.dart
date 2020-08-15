@@ -4,6 +4,8 @@ import 'package:Jorbs/Data/ProviderList.dart';
 import 'package:Jorbs/Data/SaveFilters.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 
+// This Widget for building the Providers field in the popup screen
+
 class ProvidersField extends StatefulWidget {
   const ProvidersField({
     Key key,
@@ -37,6 +39,7 @@ class _ProvidersFieldState extends State<ProvidersField> {
             ),
             searchHint: "Select any",
             validator: (selectedItemsForValidator) {
+              // show warning text if the user forget to select a provider
               if (selectedItemsForValidator.length < 1) {
                 return (Text(
                   "Select at least select one",
@@ -48,6 +51,7 @@ class _ProvidersFieldState extends State<ProvidersField> {
               }
               return (null);
             },
+            // save the selected values (providers)
             onChanged: (value) {
               setState(() {
                 SavedFilters.selectedProviders = value;

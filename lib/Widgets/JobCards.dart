@@ -1,4 +1,3 @@
-// In this widget the cards will get build
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +8,9 @@ import 'package:http/http.dart' as http;
 import 'package:Jorbs/bloc/jorbs_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-//A default image for github jobs
+// In this widget the cards will get build
+
+//A default image for github jobs, if there is no image
 const String _imageUrlGithub =
     "https://lawyerlearnsblockchain.com/wp-content/uploads/2019/01/GitHub-brave-hed-796x418.jpg";
 
@@ -29,7 +30,7 @@ _launchURL(String jobUrl) async {
 }
 
 bool _checkIfThereAreFilteredJobs;
-// Fetching The recent Jobs in Github and show it in the main screen
+// Fetching The recent Jobs in Github and show it in the main screen when the app starts.
 Future<void> fetchRecentJobs() async {
   var url = 'https://jobs.github.com/positions.json';
 

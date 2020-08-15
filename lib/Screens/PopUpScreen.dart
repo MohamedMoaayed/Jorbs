@@ -3,11 +3,14 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Jorbs/Data/SaveFilters.dart';
-import 'package:Jorbs/Widgets/Places.dart';
+import 'package:Jorbs/Widgets/PlacesField.dart';
 import 'package:Jorbs/Widgets/PositionField.dart';
 import 'package:Jorbs/Widgets/ProviderSelesction.dart';
 import 'package:Jorbs/bloc/jorbs_bloc.dart';
 
+// This is the filter screen which will be first implemented as RawMaterialButton in the main screen.
+
+// For saving texts.
 final myControllerPosition = TextEditingController();
 final myControllerLocation = TextEditingController();
 
@@ -34,7 +37,6 @@ class _PopUpScreenState extends State<PopUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final JorbsBloc _counterBloc = BlocProvider.of<JorbsBloc>(context);
     return RawMaterialButton(
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -69,6 +71,7 @@ class _PopUpScreenState extends State<PopUpScreen> {
     );
   }
 
+// Here is the PopUp filter screen's coding part.
   Future buildShowDialog(BuildContext context) {
     return showDialog(
         // barrierDismissible: false,
@@ -82,8 +85,7 @@ class _PopUpScreenState extends State<PopUpScreen> {
               child: Dialog(
                 backgroundColor: Theme.of(context).backgroundColor,
                 shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(20.0)), //this right here
+                    borderRadius: BorderRadius.circular(20.0)),
                 child: Container(
                   height: 500,
                   width: 700,
@@ -94,6 +96,7 @@ class _PopUpScreenState extends State<PopUpScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // Putting all the widgets togather.
                           PositionField(),
                           ProvidersField(),
                           PlacesField(),
@@ -110,6 +113,7 @@ class _PopUpScreenState extends State<PopUpScreen> {
   }
 }
 
+// This is the buttom in the Popup Screen for saving the inputs and trigger BlocEvent.
 class SavedButtom extends StatelessWidget {
   const SavedButtom({
     Key key,
@@ -150,9 +154,10 @@ class SavedButtom extends StatelessWidget {
     );
   }
 
+// A function for submit Bloc trigger
   void submitBloc(BuildContext context) {
     final jorbsBloc = context.bloc<JorbsBloc>();
-    jorbsBloc.add(SavedFilter());
+    jorbsBloc.add(FilterGotSaved());
     return null;
   }
 }

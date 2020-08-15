@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:Jorbs/Data/SaveFilters.dart';
 
+// This widget for building the Position search text field in the popup screen
+
 class PositionField extends StatelessWidget {
   const PositionField({
     Key key,
