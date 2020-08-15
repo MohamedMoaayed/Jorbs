@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:jorbs/Screens/PopUpScreen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:Jorbs/Screens/PopUpScreen.dart';
 import 'package:flutter/services.dart';
 
 import 'Screens/AboutScreen.dart';
-import 'Widgets/JobCard.dart';
+import 'Widgets/JobCards.dart';
+import 'bloc/jorbs_bloc.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,17 +14,26 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Jorbs',
-      theme: ThemeData(
-        primaryColor: Colors.white,
-        backgroundColor: Color.fromRGBO(246, 246, 246, 1),
-        accentColor: Color.fromRGBO(255, 67, 67, 1),
-        fontFamily: 'Gilory',
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return MultiBlocProvider(
+      //MultiBloc becuase the app has two screens for resourcing Bloc
+      providers: [
+        BlocProvider<JorbsBloc>(
+          create: (BuildContext context) => JorbsBloc(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Jorbs',
+        //simple theme for the app
+        theme: ThemeData(
+          primaryColor: Colors.white,
+          backgroundColor: Color.fromRGBO(246, 246, 246, 1),
+          accentColor: Color.fromRGBO(255, 67, 67, 1),
+          fontFamily: 'Gilory',
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: MyHomePage(),
+        debugShowCheckedModeBanner: false,
       ),
-      home: MyHomePage(),
-      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -42,6 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
     ));
+
     super.initState();
   }
 
@@ -70,10 +82,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Center(child: PopUpScreen()),
           SizedBox(
-            height: 20,
+            height: 5,
           ),
           Text(
-            "Recent Jobs",
+            "Recent Jobs ",
             style: TextStyle(
               fontFamily: 'Gilroy',
               fontWeight: FontWeight.bold,
@@ -82,7 +94,12 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             textAlign: TextAlign.right,
           ),
-          JobCard(),
+          SizedBox(
+            height: 7,
+          ),
+          Expanded(
+            child: JobCards(),
+          ),
         ],
       ),
     );

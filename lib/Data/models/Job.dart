@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 
 class Job {
   final String provider;
@@ -7,12 +7,12 @@ class Job {
   final String position;
   final String companyName;
   final String jobUrl;
-  final DateTime date;
+  final String date;
 
   Job({
     @required this.provider,
     @required this.companyName,
-    @required this.logoUrl,
+    this.logoUrl,
     @required this.jobUrl,
     @required this.location,
     @required this.position,

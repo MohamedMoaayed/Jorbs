@@ -6,7 +6,7 @@ class AboutDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      elevation: 0,
+      elevation: 5,
 
       // Add a ListView to the drawer. This ensures the user can scroll
       // through the options in the drawer if there isn't enough vertical
@@ -31,15 +31,6 @@ class AboutDrawer extends StatelessWidget {
                 textAlign: TextAlign.center,
                 maxLines: 1,
               ),
-            ),
-            ListTile(
-              title: Text('Item 1'),
-              onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
-                Navigator.pop(context);
-              },
             ),
           ],
         ),

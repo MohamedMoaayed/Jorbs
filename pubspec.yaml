@@ -1,5 +1,5 @@
-name: jorbs
-description: A new Flutter project.
+name: Jorbs
+description: A Job Helper.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -28,6 +28,9 @@ dependencies:
   searchable_dropdown: ^1.1.3
   flutter_google_places: ^0.2.6
   google_maps_webservice: ^0.0.18
+  http: ^0.12.2
+  url_launcher: ^5.5.0
+
 
 
 
@@ -38,7 +41,14 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.7.5
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/icon.jpg"
+  adaptive_icon_background: "#c5c9cc"
+  adaptive_icon_foreground: "assets/images/icon_adaptive.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
