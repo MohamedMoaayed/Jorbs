@@ -35,12 +35,13 @@ Future<void> fetchRecentJobs() async {
   var url = 'https://jobs.github.com/positions.json';
 
   try {
-    final response = await http.get(url);
-    final extractedData = json.decode(response.body);
-    if (extractedData == null) {
-      return;
-    }
-    if (_checkIfThereAreFilteredJobs != true)
+    if (_checkIfThereAreFilteredJobs != true) {
+      final response = await http.get(url);
+      final extractedData = json.decode(response.body);
+      if (extractedData == null) {
+        return;
+      }
+
       for (var extractedData in extractedData) {
         _availableJobs.add(Job(
           companyName: extractedData['company'],
@@ -52,6 +53,7 @@ Future<void> fetchRecentJobs() async {
           provider: 'github',
         ));
       }
+    }
   } catch (error) {
     throw (error);
   }
