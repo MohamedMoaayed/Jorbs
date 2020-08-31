@@ -1,4 +1,4 @@
-# Jords 
+# Jorbs 
 
 
 Jorbs is a Cross Mobile application Powered By Flutter that helps Users to find jobs from Github Jobs and USAJOBS ( Other Providers will be added).
