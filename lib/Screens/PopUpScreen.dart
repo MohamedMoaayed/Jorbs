@@ -1,15 +1,16 @@
 import 'dart:ui';
 
+import 'package:Jorbs/Data/SaveFilters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Jorbs/Data/SaveFilters.dart';
+
 import 'package:Jorbs/Widgets/PlacesField.dart';
 import 'package:Jorbs/Widgets/PositionField.dart';
 import 'package:Jorbs/Widgets/ProviderSelesction.dart';
 import 'package:Jorbs/bloc/jorbs_bloc.dart';
 
 // This is the filter screen which will be first implemented as RawMaterialButton in the main screen.
-
+SavedFilters savedFilters = SavedFilters();
 // For saving texts.
 final myControllerPosition = TextEditingController();
 final myControllerLocation = TextEditingController();
@@ -132,14 +133,16 @@ class SavedButtom extends StatelessWidget {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         elevation: 5,
         onPressed: () {
-          _form.currentState.save();
-          final JorbsBloc counterBloc = BlocProvider.of<JorbsBloc>(context);
+          if (savedFilters.selectedProviders.isNotEmpty) {
+            _form.currentState.save();
+            final JorbsBloc counterBloc = BlocProvider.of<JorbsBloc>(context);
 
-          print(SavedFilters.position);
-          print(SavedFilters.selectedProviders);
+            print(savedFilters.position);
+            print(savedFilters.selectedProviders);
 
-          Navigator.of(context).pop();
-          submitBloc(context);
+            Navigator.of(context).pop();
+            submitBloc(context);
+          }
         },
         child: Text(
           "Save",

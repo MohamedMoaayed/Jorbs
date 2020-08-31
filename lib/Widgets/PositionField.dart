@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:Jorbs/Data/SaveFilters.dart';
 
 // This widget for building the Position search text field in the popup screen
+SavedFilters savedFilters = SavedFilters();
 
 class PositionField extends StatelessWidget {
   const PositionField({
@@ -24,7 +25,7 @@ class PositionField extends StatelessWidget {
           height: 12,
         ),
         TextFormField(
-          onSaved: (val) => SavedFilters.position = val,
+          onSaved: (val) => savedFilters.setposition(val),
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5.0),

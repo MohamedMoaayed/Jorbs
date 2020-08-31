@@ -7,15 +7,17 @@ import 'package:Jorbs/helpers/Helpers.dart';
 
 import 'package:http/http.dart' as http;
 
+SavedFilters savedFilters = SavedFilters();
+
 class FetchingApis {
 // The List of filtered searched for Jobs
   static List<Job> filteredJobs = [];
 
   static Future<void> fetchFilteredJobsFromProviders() async {
     // The Zero Index is Github and one index for the USAJOBS, as we assigned that in ProviderList.dart
-    if (SavedFilters.selectedProviders.contains(0)) {
+    if (savedFilters.selectedProviders.contains(0)) {
       var url =
-          'https://jobs.github.com/positions.json?search=${SavedFilters.position}&location=${SavedFilters.location}';
+          'https://jobs.github.com/positions.json?search=${savedFilters.position}&location=${savedFilters.location}';
       try {
         var response = await http.get(url);
         var _responseJson = json.decode(response.body);
@@ -41,10 +43,10 @@ class FetchingApis {
       }
     }
     // If the user (only or also) selected  USAJOBS
-    if (SavedFilters.selectedProviders.contains(1)) {
+    if (savedFilters.selectedProviders.contains(1)) {
       try {
         final response = await http.get(
-            'https://data.usajobs.gov/api/search?Keyword=${SavedFilters.position}&&LocationName=${SavedFilters.location}',
+            'https://data.usajobs.gov/api/search?Keyword=${savedFilters.position}&&LocationName=${savedFilters.location}',
             headers: Headers.headers);
         var _responseJson = json.decode(response.body);
 

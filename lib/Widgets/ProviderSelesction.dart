@@ -5,6 +5,7 @@ import 'package:Jorbs/Data/SaveFilters.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 
 // This Widget for building the Providers field in the popup screen
+SavedFilters savedFilters = SavedFilters();
 
 class ProvidersField extends StatefulWidget {
   const ProvidersField({
@@ -31,7 +32,7 @@ class _ProvidersFieldState extends State<ProvidersField> {
         Container(
           child: SearchableDropdown.multiple(
             items: ProviderList.list,
-            selectedItems: SavedFilters.selectedProviders,
+            selectedItems: savedFilters.selectedProviders,
             hint: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Text("Select a Provider",
@@ -54,7 +55,9 @@ class _ProvidersFieldState extends State<ProvidersField> {
             // save the selected values (providers)
             onChanged: (value) {
               setState(() {
-                SavedFilters.selectedProviders = value;
+                savedFilters.setselectedProviders(value);
+                print('selected teh providers ');
+                print(savedFilters.selectedProviders);
               });
             },
             closeButton: (selectedItems) {
@@ -62,7 +65,7 @@ class _ProvidersFieldState extends State<ProvidersField> {
                   ? "Save ${selectedItems.length == 1 ? '"' + ProviderList.list[selectedItems.first].value.toString() + '"' : '(' + selectedItems.length.toString() + ')'}"
                   : "Save without selection");
             },
-            isExpanded: true,
+            isExpanded: false,
           ),
         ),
         Divider(),

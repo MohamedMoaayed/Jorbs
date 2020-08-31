@@ -6,6 +6,7 @@ import 'package:Jorbs/Data/SaveFilters.dart';
 import '../Screens/PopUpScreen.dart';
 
 //This widget for building the autoComplete Google Api places Search
+SavedFilters savedFilters = SavedFilters();
 
 class PlacesField extends StatelessWidget {
   const PlacesField({
@@ -26,7 +27,7 @@ class PlacesField extends StatelessWidget {
         ),
         Container(
           child: TextFormField(
-              onSaved: (val) => SavedFilters.location = val,
+              onSaved: (val) => savedFilters.setlocation(val),
               controller: myControllerLocation,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
