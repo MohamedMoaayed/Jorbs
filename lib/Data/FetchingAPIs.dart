@@ -12,6 +12,34 @@ SavedFilters savedFilters = SavedFilters();
 class FetchingApis {
 // The List of filtered searched for Jobs
   static List<Job> filteredJobs = [];
+  static List<Job> recentJobsByGitHub = [];
+
+  // Fetching The recent Jobs in Github and show it in the main screen when the app starts.
+  static Future<void> fetchRecentJobs() async {
+    var url = 'https://jobs.github.com/positions.json';
+
+    try {
+      final response = await http.get(url);
+      final extractedData = json.decode(response.body);
+      if (extractedData == null) {
+        return;
+      }
+
+      for (var extractedData in extractedData) {
+        recentJobsByGitHub.add(Job(
+          companyName: extractedData['company'],
+          date: extractedData['created_at'],
+          jobUrl: extractedData['url'],
+          location: extractedData['location'],
+          logoUrl: extractedData['company_logo'],
+          position: extractedData['title'],
+          provider: 'github',
+        ));
+      }
+    } catch (error) {
+      throw (error);
+    }
+  }
 
   static Future<void> fetchFilteredJobsFromProviders() async {
     // The Zero Index is Github and one index for the USAJOBS, as we assigned that in ProviderList.dart

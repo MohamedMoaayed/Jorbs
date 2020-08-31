@@ -8,6 +8,11 @@ class JorbsInitial extends JorbsState {
   JorbsInitial();
 }
 
+// Loading jobs from providers
+class JobsLoading extends JorbsState {
+  JobsLoading();
+}
+
 // Show filtered fectched Jobs
 class JobsLoaded extends JorbsState {
   final List<Job> filteredJobs;

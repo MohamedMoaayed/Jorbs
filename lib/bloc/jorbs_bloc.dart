@@ -22,8 +22,9 @@ class JorbsBloc extends Bloc<JorbsEvent, JorbsState> {
   ) async* {
     try {
       if (event is FilterGotSaved) {
-        await FetchingApis.fetchFilteredJobsFromProviders();
+        yield JobsLoading();
 
+        await FetchingApis.fetchFilteredJobsFromProviders();
         // If we received Jobs form Providers we submit them to Cards Widget otherwise we don't
         if (FetchingApis.filteredJobs.isNotEmpty)
           yield JobsLoaded(FetchingApis.filteredJobs);

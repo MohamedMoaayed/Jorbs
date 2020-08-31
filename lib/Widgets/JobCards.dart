@@ -81,7 +81,9 @@ class _JobCardsState extends State<JobCards> {
     }, builder: (context, state) {
       // return widget here based on Bloc's state
       if (state is JorbsInitial) {
-        return buildCards();
+        return buildRecentCards();
+      } else if (state is JobsLoading) {
+        return buildProgressIndicator();
       } else if (state is JobsLoaded) {
         //Pass the filtered jobs from Bloc
         _checkIfThereAreFilteredJobs = true;
@@ -97,155 +99,287 @@ class _JobCardsState extends State<JobCards> {
 
 //Building the cards using Listview and FutureBuilder
 Widget buildCards() {
-  return FutureBuilder(
-      future: fetchRecentJobs(),
-      builder: (ctx, snapshot) =>
-          snapshot.connectionState == ConnectionState.waiting
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : RefreshIndicator(
-                  onRefresh: () => fetchRecentJobs(),
-                  child: ListView.builder(
-                    itemCount: _availableJobs.length,
-                    itemBuilder: (context, index) => Container(
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                      height: 220,
-                      width: double.maxFinite,
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
+  return ListView.builder(
+    itemCount: _availableJobs.length,
+    itemBuilder: (context, index) => Container(
+      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+      height: 220,
+      width: double.maxFinite,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        elevation: 5,
+        margin: EdgeInsets.all(3),
+        child: Padding(
+            padding: EdgeInsets.all(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.network(
+                    _availableJobs[index].logoUrl != null
+                        ? _availableJobs[index].logoUrl
+                        : _imageUrlGithub,
+                    height: double.infinity,
+                    width: 110,
+                    fit: BoxFit.scaleDown,
+                  ),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Flexible(
+                      child: Container(
+                        padding: EdgeInsets.all(6),
+                        width: 230,
+                        child: Text(
+                          _availableJobs[index].position,
+                          overflow: TextOverflow.fade,
+                          maxLines: 1,
+                          softWrap: false,
+                          style: TextStyle(
+                              fontFamily: 'Gilroy',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
                         ),
-                        elevation: 5,
-                        margin: EdgeInsets.all(3),
-                        child: Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Image.network(
-                                    _availableJobs[index].logoUrl != null
-                                        ? _availableJobs[index].logoUrl
-                                        : _imageUrlGithub,
-                                    height: double.infinity,
-                                    width: 110,
-                                    fit: BoxFit.scaleDown,
-                                  ),
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Flexible(
-                                      child: Container(
-                                        padding: EdgeInsets.all(6),
-                                        width: 230,
-                                        child: Text(
-                                          _availableJobs[index].position,
-                                          overflow: TextOverflow.fade,
-                                          maxLines: 1,
-                                          softWrap: false,
-                                          style: TextStyle(
-                                              fontFamily: 'Gilroy',
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
-                                        ),
-                                      ),
-                                    ),
-                                    Flexible(
-                                      child: Container(
-                                        padding: EdgeInsets.all(6),
-                                        width: 230,
-                                        child: Text(
-                                          _availableJobs[index].companyName,
-                                          overflow: TextOverflow.fade,
-                                          maxLines: 1,
-                                          softWrap: false,
-                                          style: TextStyle(
-                                              fontFamily: 'Gilroy',
-                                              fontWeight: FontWeight.normal,
-                                              fontSize: 14),
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Row(
-                                        children: [
-                                          Icon(Icons.date_range),
-                                          Container(
-                                            padding: EdgeInsets.all(6),
-                                            width: 200,
-                                            child: Text(
-                                              _availableJobs[index].date,
-                                              overflow: TextOverflow.fade,
-                                              maxLines: 1,
-                                              softWrap: false,
-                                              style: TextStyle(
-                                                  fontFamily: 'Gilroy',
-                                                  fontWeight: FontWeight.w300,
-                                                  fontSize: 14),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 23,
-                                    ),
-                                    Expanded(
-                                      child: Row(
-                                        children: [
-                                          Icon(Icons.location_on),
-                                          Container(
-                                            padding: EdgeInsets.all(6),
-                                            width: 100,
-                                            child: Text(
-                                              _availableJobs[index].location,
-                                              overflow: TextOverflow.fade,
-                                              maxLines: 1,
-                                              softWrap: false,
-                                              style: TextStyle(
-                                                  fontFamily: 'Gilroy',
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 15,
-                                                  color: _availableJobs[index]
-                                                                  .location ==
-                                                              "Remote" ||
-                                                          _availableJobs[index]
-                                                                  .location ==
-                                                              "REMOTE"
-                                                      ? Theme.of(context)
-                                                          .accentColor
-                                                      : Colors.black),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: 100,
-                                            child: RaisedButton(
-                                              child: Text(
-                                                "Apply",
-                                                style: TextStyle(
-                                                    fontFamily: 'Gilroy',
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 20),
-                                              ),
-                                              onPressed: () => _launchURL(
-                                                  _availableJobs[index].jobUrl),
-                                              elevation: 1,
-                                              color: Colors.green[300],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            )),
                       ),
                     ),
-                  )));
+                    Flexible(
+                      child: Container(
+                        padding: EdgeInsets.all(6),
+                        width: 230,
+                        child: Text(
+                          _availableJobs[index].companyName,
+                          overflow: TextOverflow.fade,
+                          maxLines: 1,
+                          softWrap: false,
+                          style: TextStyle(
+                              fontFamily: 'Gilroy',
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Icon(Icons.date_range),
+                          Container(
+                            padding: EdgeInsets.all(6),
+                            width: 200,
+                            child: Text(
+                              _availableJobs[index].date,
+                              overflow: TextOverflow.fade,
+                              maxLines: 1,
+                              softWrap: false,
+                              style: TextStyle(
+                                  fontFamily: 'Gilroy',
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 14),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 23,
+                    ),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Icon(Icons.location_on),
+                          Container(
+                            padding: EdgeInsets.all(6),
+                            width: 100,
+                            child: Text(
+                              _availableJobs[index].location,
+                              overflow: TextOverflow.fade,
+                              maxLines: 1,
+                              softWrap: false,
+                              style: TextStyle(
+                                  fontFamily: 'Gilroy',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15,
+                                  color: _availableJobs[index].location ==
+                                              "Remote" ||
+                                          _availableJobs[index].location ==
+                                              "REMOTE"
+                                      ? Theme.of(context).accentColor
+                                      : Colors.black),
+                            ),
+                          ),
+                          Container(
+                            width: 100,
+                            child: RaisedButton(
+                              child: Text(
+                                "Apply",
+                                style: TextStyle(
+                                    fontFamily: 'Gilroy',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ),
+                              onPressed: () =>
+                                  _launchURL(_availableJobs[index].jobUrl),
+                              elevation: 1,
+                              color: Colors.green[300],
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            )),
+      ),
+    ),
+  );
+}
+
+Center buildProgressIndicator() {
+  return Center(
+    child: CircularProgressIndicator(),
+  );
+}
+
+Widget buildRecentCards() {
+  return FutureBuilder(
+      future: fetchRecentJobs(),
+      builder: (ctx, snapshot) => snapshot.connectionState ==
+              ConnectionState.waiting
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : RefreshIndicator(
+              onRefresh: () => fetchRecentJobs(),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
+                itemCount: _availableJobs.length,
+                itemBuilder: (context, index) => Container(
+                  padding: EdgeInsets.fromLTRB(7, 7, 7, 7),
+                  height: 220,
+                  width: double.maxFinite,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    elevation: 5,
+                    margin: EdgeInsets.all(3),
+                    child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Flexible(
+                              child: Container(
+                                padding: EdgeInsets.all(6),
+                                width: 230,
+                                child: Text(
+                                  _availableJobs[index].position,
+                                  overflow: TextOverflow.fade,
+                                  maxLines: 1,
+                                  softWrap: false,
+                                  style: TextStyle(
+                                      fontFamily: 'Gilroy',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Container(
+                                padding: EdgeInsets.all(6),
+                                width: 230,
+                                child: Text(
+                                  _availableJobs[index].companyName,
+                                  overflow: TextOverflow.fade,
+                                  maxLines: 1,
+                                  softWrap: false,
+                                  style: TextStyle(
+                                      fontFamily: 'Gilroy',
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 14),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Icon(Icons.date_range),
+                                  Container(
+                                    padding: EdgeInsets.all(6),
+                                    width: 100,
+                                    child: Text(
+                                      _availableJobs[index].date,
+                                      overflow: TextOverflow.fade,
+                                      maxLines: 1,
+                                      softWrap: false,
+                                      style: TextStyle(
+                                          fontFamily: 'Gilroy',
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 14),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 23,
+                            ),
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  Icon(Icons.location_on),
+                                  Container(
+                                    padding: EdgeInsets.all(4),
+                                    width: 60,
+                                    child: Text(
+                                      _availableJobs[index].location,
+                                      overflow: TextOverflow.fade,
+                                      maxLines: 1,
+                                      softWrap: false,
+                                      style: TextStyle(
+                                          fontFamily: 'Gilroy',
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 13,
+                                          color: _availableJobs[index]
+                                                          .location ==
+                                                      "Remote" ||
+                                                  _availableJobs[index]
+                                                          .location ==
+                                                      "REMOTE"
+                                              ? Theme.of(context).accentColor
+                                              : Colors.black),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 70,
+                                    child: RaisedButton(
+                                      child: Text(
+                                        "Apply",
+                                        style: TextStyle(
+                                            fontFamily: 'Gilroy',
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 13),
+                                      ),
+                                      onPressed: () => _launchURL(
+                                          _availableJobs[index].jobUrl),
+                                      elevation: 1,
+                                      color: Colors.green[300],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        )),
+                  ),
+                ),
+              )));
 }
