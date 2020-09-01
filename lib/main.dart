@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Jorbs/Screens/PopUpScreen.dart';
 import 'package:flutter/services.dart';
+import 'package:preview/preview.dart';
 
 import 'Screens/AboutScreen.dart';
 import 'Widgets/JobCards.dart';
@@ -103,5 +104,17 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     );
+  }
+}
+
+class WidgetPreview extends PreviewProvider {
+  @override
+  List<Preview> get previews {
+    return [
+      Preview(
+        frame: Frames.ipadAir2,
+        child: MyApp(),
+      ),
+    ];
   }
 }
