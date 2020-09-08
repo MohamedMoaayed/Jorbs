@@ -26,13 +26,14 @@ class JorbsBloc extends Bloc<JorbsEvent, JorbsState> {
 
         await FetchingApis.fetchFilteredJobsFromProviders();
         // If we received Jobs form Providers we submit them to Cards Widget otherwise we don't
-        if (FetchingApis.filteredJobs.isNotEmpty)
+        if (FetchingApis.filteredJobs.isNotEmpty) {
           yield JobsLoaded(FetchingApis.filteredJobs);
+        }
         FetchingApis.filteredJobs = [];
       }
     } catch (error) {
-      yield JorbsError("Couldn't fetch Jobs. Is the device online?");
-      throw (error);
+      yield JorbsError('Couldn\'t fetch Jobs. Is the device online?');
+      rethrow;
     }
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:Jorbs/Data/SaveFilters.dart';
+import 'package:Jorbs/helpers/Locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,7 +11,8 @@ import 'package:Jorbs/Widgets/ProviderSelesction.dart';
 import 'package:Jorbs/bloc/jorbs_bloc.dart';
 
 // This is the filter screen which will be first implemented as RawMaterialButton in the main screen.
-SavedFilters savedFilters = SavedFilters();
+// SavedFilters savedFilters = SavedFilters();
+var savedFilters = locator<SavedFilters>();
 // For saving texts.
 final myControllerPosition = TextEditingController();
 final myControllerLocation = TextEditingController();
@@ -57,7 +59,7 @@ class _PopUpScreenState extends State<PopUpScreen> {
               width: 10.0,
             ),
             Text(
-              "Set Filters",
+              'Set Filters',
               maxLines: 1,
               style: TextStyle(
                   color: Colors.black,
@@ -133,7 +135,7 @@ class SavedButtom extends StatelessWidget {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         elevation: 5,
         onPressed: () {
-          if (savedFilters.selectedProviders.isNotEmpty) {
+          if (locator<SavedFilters>().selectedProviders.isNotEmpty) {
             _form.currentState.save();
             final JorbsBloc counterBloc = BlocProvider.of<JorbsBloc>(context);
 
@@ -145,7 +147,7 @@ class SavedButtom extends StatelessWidget {
           }
         },
         child: Text(
-          "Save",
+          'Save',
           style: TextStyle(
               color: Colors.white,
               fontFamily: 'Gilroy',

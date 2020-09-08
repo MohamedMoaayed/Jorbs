@@ -1,3 +1,4 @@
+import 'package:Jorbs/helpers/Locator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Jorbs/Data/ProviderList.dart';
@@ -5,7 +6,6 @@ import 'package:Jorbs/Data/SaveFilters.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 
 // This Widget for building the Providers field in the popup screen
-SavedFilters savedFilters = SavedFilters();
 
 class ProvidersField extends StatefulWidget {
   const ProvidersField({
@@ -22,7 +22,7 @@ class _ProvidersFieldState extends State<ProvidersField> {
     return Column(
       children: [
         Text(
-          "Provider(s)",
+          'Provider(s)',
           style: TextStyle(
               fontFamily: 'Gilroy', fontSize: 18, fontWeight: FontWeight.bold),
         ),
@@ -32,18 +32,18 @@ class _ProvidersFieldState extends State<ProvidersField> {
         Container(
           child: SearchableDropdown.multiple(
             items: ProviderList.list,
-            selectedItems: savedFilters.selectedProviders,
+            selectedItems: locator<SavedFilters>().selectedProviders,
             hint: Padding(
               padding: const EdgeInsets.all(12.0),
-              child: Text("Select a Provider",
+              child: Text('Select a Provider',
                   style: TextStyle(fontFamily: 'Gilroy')),
             ),
-            searchHint: "Select any",
+            searchHint: 'Select any',
             validator: (selectedItemsForValidator) {
               // show warning text if the user forget to select a provider
               if (selectedItemsForValidator.length < 1) {
                 return (Text(
-                  "Select at least select one",
+                  'Select at least select one',
                   style: TextStyle(
                       fontFamily: 'Gilroy',
                       fontSize: 10,
@@ -55,9 +55,9 @@ class _ProvidersFieldState extends State<ProvidersField> {
             // save the selected values (providers)
             onChanged: (value) {
               setState(() {
-                savedFilters.setselectedProviders(value);
+                locator<SavedFilters>().setselectedProviders(value);
                 print('selected teh providers ');
-                print(savedFilters.selectedProviders);
+                print(locator<SavedFilters>().selectedProviders);
               });
             },
             closeButton: (selectedItems) {

@@ -7,8 +7,10 @@ import 'package:preview/preview.dart';
 import 'Screens/AboutScreen.dart';
 import 'Widgets/JobCards.dart';
 import 'bloc/jorbs_bloc.dart';
+import 'helpers/Locator.dart';
 
 void main() {
+  setupLocator();
   runApp(MyApp());
 }
 
@@ -62,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Jorbs",
+        title: Text('Jorbs',
             style: TextStyle(
               color: Colors.black,
               fontFamily: 'Gilroy',
@@ -86,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
             height: 5,
           ),
           Text(
-            "Recent Jobs ",
+            'Recent Jobs',
             style: TextStyle(
               fontFamily: 'Gilroy',
               fontWeight: FontWeight.bold,

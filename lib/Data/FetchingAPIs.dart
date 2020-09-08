@@ -4,10 +4,12 @@ import 'dart:convert';
 import 'package:Jorbs/Data/SaveFilters.dart';
 import 'package:Jorbs/Data/models/Job.dart';
 import 'package:Jorbs/helpers/Helpers.dart';
+import 'package:Jorbs/helpers/Locator.dart';
 
 import 'package:http/http.dart' as http;
 
-SavedFilters savedFilters = SavedFilters();
+// SavedFilters savedFilters = SavedFilters();
+var savedFilters = locator<SavedFilters>();
 
 class FetchingApis {
 // The List of filtered searched for Jobs
@@ -37,7 +39,7 @@ class FetchingApis {
         ));
       }
     } catch (error) {
-      throw (error);
+      rethrow;
     }
   }
 
@@ -67,7 +69,7 @@ class FetchingApis {
 
         _responseJson = [];
       } catch (error) {
-        throw (error);
+        rethrow;
       }
     }
     // If the user (only or also) selected  USAJOBS
@@ -79,7 +81,7 @@ class FetchingApis {
         var _responseJson = json.decode(response.body);
 
         // Function for triming the nested JSON we received.
-        _responseJson.removeWhere((key, value) => key != "SearchResult");
+        _responseJson.removeWhere((key, value) => key != 'SearchResult');
 
         // Making a list for only Jobs info.
         var _listOfMapsOfJobs =
@@ -87,12 +89,12 @@ class FetchingApis {
 
         for (var entry in _listOfMapsOfJobs) {
           filteredJobs.add(Job(
-            position: entry['MatchedObjectDescriptor']["PositionTitle"],
-            companyName: entry['MatchedObjectDescriptor']["OrganizationName"],
-            date: entry['MatchedObjectDescriptor']["PositionStartDate"],
+            position: entry['MatchedObjectDescriptor']['PositionTitle'],
+            companyName: entry['MatchedObjectDescriptor']['OrganizationName'],
+            date: entry['MatchedObjectDescriptor']['PositionStartDate'],
             location: entry['MatchedObjectDescriptor']
-                ["PositionLocationDisplay"],
-            jobUrl: entry['MatchedObjectDescriptor']["PositionURI"],
+                ['PositionLocationDisplay'],
+            jobUrl: entry['MatchedObjectDescriptor']['PositionURI'],
             logoUrl:
                 'https://fcw.com/-/media/GIG/FCWNow/Logos/USAJobs_logo.jpg', // This's a deafult image because USAJOBS don't Provide Logos.
             provider: 'US',
@@ -104,7 +106,7 @@ class FetchingApis {
         Here we can add more Providers and fetch their Apis data 
         */
       } catch (error) {
-        throw (error);
+        rethrow;
       }
     }
   }

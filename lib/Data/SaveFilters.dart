@@ -1,7 +1,7 @@
 // The Inputs from PopUp screen, Filters
 // This class uses Singleton design pattrn
 class SavedFilters {
-  static final SavedFilters _instance = SavedFilters._internal();
+  // static final SavedFilters _instance = SavedFilters._internal();
 
   String _position;
   String get position => _position;
@@ -15,11 +15,11 @@ class SavedFilters {
   List<int> get selectedProviders => _selectedProviders;
   void setselectedProviders(list) => _selectedProviders = list;
 
-  factory SavedFilters() {
-    return _instance;
-  }
-  // When the first instance initai
-  SavedFilters._internal() {
-    print('the ini done ');
-  }
+  // factory SavedFilters() {
+  //   return _instance;
+  // }
+  // // When the first instance initai
+  // SavedFilters._internal() {
+  //   print('the ini done ');
+  // }
 }

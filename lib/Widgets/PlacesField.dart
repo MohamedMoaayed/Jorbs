@@ -1,4 +1,5 @@
 import 'package:Jorbs/helpers/Helpers.dart';
+import 'package:Jorbs/helpers/Locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -6,7 +7,7 @@ import 'package:Jorbs/Data/SaveFilters.dart';
 import '../Screens/PopUpScreen.dart';
 
 //This widget for building the autoComplete Google Api places Search
-SavedFilters savedFilters = SavedFilters();
+// SavedFilters savedFilters = SavedFilters();
 
 class PlacesField extends StatelessWidget {
   const PlacesField({
@@ -18,7 +19,7 @@ class PlacesField extends StatelessWidget {
     return Column(
       children: [
         Text(
-          "Location",
+          'Location',
           style: TextStyle(
               fontFamily: 'Gilroy', fontSize: 18, fontWeight: FontWeight.bold),
         ),
@@ -27,7 +28,7 @@ class PlacesField extends StatelessWidget {
         ),
         Container(
           child: TextFormField(
-              onSaved: (val) => savedFilters.setlocation(val),
+              onSaved: (val) => locator<SavedFilters>().setlocation(val),
               controller: myControllerLocation,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -45,8 +46,8 @@ class PlacesField extends StatelessWidget {
                   apiKey: Keys.keyForApiPlaces,
                   onError: (err) => print(err.errorMessage),
                   mode: Mode.overlay,
-                  language: "en",
-                  components: [Component(Component.country, "jo")],
+                  language: 'en',
+                  components: [Component(Component.country, 'jo')],
                 );
               }),
         ),

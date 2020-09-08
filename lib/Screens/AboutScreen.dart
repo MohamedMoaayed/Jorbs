@@ -4,8 +4,8 @@ import 'package:url_launcher/url_launcher.dart';
 // Here we code the Drawer Screen
 
 // For launching links
-_launchURL() async {
-  final url = "https://github.com/MohamedMoaayed/Jorbs";
+dynamic _launchURL() async {
+  final url = 'https://github.com/MohamedMoaayed/Jorbs';
   if (await canLaunch(url)) {
     await launch(
       url,
@@ -62,7 +62,7 @@ class AboutDrawer extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                "Find the open source Project on GitHub :",
+                'Find the open source Project on GitHub :',
                 style: TextStyle(
                     fontFamily: 'Giloary',
                     fontWeight: FontWeight.bold,

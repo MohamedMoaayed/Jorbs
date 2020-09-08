@@ -1,0 +1,9 @@
+# enable the lint package or the pedantic or special rules to us use the lint rules 
+# include: package:pedantic/analysis_options.yaml
+# include: package:lint/analysis_options.yaml
+
+# linter:
+#   rules:
+#     # Style rules 
+#       - camel_case_types
+#       - avoid_empty_else

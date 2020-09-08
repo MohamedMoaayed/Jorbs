@@ -12,13 +12,13 @@ import 'package:url_launcher/url_launcher.dart';
 
 //A default image for github jobs, if there is no image
 const String _imageUrlGithub =
-    "https://lawyerlearnsblockchain.com/wp-content/uploads/2019/01/GitHub-brave-hed-796x418.jpg";
+    'https://lawyerlearnsblockchain.com/wp-content/uploads/2019/01/GitHub-brave-hed-796x418.jpg';
 
 // The list of fetched Jobs
 List<Job> _availableJobs = [];
 
 // For launching links
-_launchURL(String jobUrl) async {
+dynamic _launchURL(String jobUrl) async {
   final url = jobUrl;
   if (await canLaunch(url)) {
     await launch(
@@ -55,7 +55,7 @@ Future<void> fetchRecentJobs() async {
       }
     }
   } catch (error) {
-    throw (error);
+    rethrow;
   }
 }
 
@@ -120,9 +120,7 @@ Widget buildCards() {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Image.network(
-                    _availableJobs[index].logoUrl != null
-                        ? _availableJobs[index].logoUrl
-                        : _imageUrlGithub,
+                    _availableJobs[index].logoUrl ?? _imageUrlGithub,
                     height: double.infinity,
                     width: 110,
                     fit: BoxFit.scaleDown,
@@ -204,9 +202,9 @@ Widget buildCards() {
                                   fontWeight: FontWeight.w600,
                                   fontSize: 15,
                                   color: _availableJobs[index].location ==
-                                              "Remote" ||
+                                              'Remote' ||
                                           _availableJobs[index].location ==
-                                              "REMOTE"
+                                              'REMOTE'
                                       ? Theme.of(context).accentColor
                                       : Colors.black),
                             ),
@@ -215,7 +213,7 @@ Widget buildCards() {
                             width: 100,
                             child: RaisedButton(
                               child: Text(
-                                "Apply",
+                                'Apply',
                                 style: TextStyle(
                                     fontFamily: 'Gilroy',
                                     color: Colors.white,
